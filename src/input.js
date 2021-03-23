@@ -3,8 +3,10 @@ import './App.css';
 import React, {useState, useEffect} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Display from './Display'
 
-function Display({onMount})
+
+function Input({onMount})
 {
     const [selected, setSelected] = useState("");
     const [data, setData] = useState({});
@@ -19,9 +21,9 @@ function Display({onMount})
 
     return (
         //change to bootstrap component
-        <div style={{display:"flex", flexDirection:"column"}}>
+        <div style={{display:"flex"}}>
             {selected}
-            <Form>
+            {selected ? <Form style={{width:"300px"}}>
                 <Form.Group controlId="exampleForm.ControlSelect2" >
                     <Form.Label>General quality of the part</Form.Label>
                     <Form.Control as="select" multiple onChange={(ev) =>
@@ -51,11 +53,13 @@ function Display({onMount})
                         setSavedData(temp)
                         console.log(savedData)
                         setData({})
+                        setSelected("")
                     }}>Save</Button>
                 </Form.Group>
-            </Form>
+            </Form> : null}
+            <Display savedData={savedData}></Display>
         </div>
     );
 };
 
-export default Display;
+export default Input;

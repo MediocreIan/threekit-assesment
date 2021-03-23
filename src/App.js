@@ -3,7 +3,6 @@ import './App.css';
 import React, {useState, useEffect} from 'react';
 import Input from './input'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Display from './Display'
 
 
 function App()
@@ -87,11 +86,10 @@ function App()
   };
   return (
     <div className="App">
-      <div style={{display:"flex"}}>
-      <div id="player" style={{width:'500px', height:"500px", margin:"auto", border:"3px solid grey", borderRadius:'5px'}}>player</div>
+
+      <div id="player" style={{width:'600px', height:"300px", margin:"auto", border:"3px solid grey", borderRadius:'5px'}}>player</div>
       <Input onMount={onDisplayMount}></Input>
-      <Display savedData={savedData} selected={selected}></Display>
-    </div>
+
     </div>
   );
 }
