@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threekit Demo Engineering</title>
+    <script src="https://preview.threekit.com/app/js/threekit-player.js"></script>
+
+</head>
+
+<body>
+    <div id="player" style="height: 500px; width: 100vw"></div>
+</body>
+<script>
+
+    /*
+    This is the simplest version of the Threekit player being embedded
+    https://docs.threekit.com/docs/embedding-the-threekit-player
+    */
+    window
+        .threekitPlayer({
+            authToken: "cb778e54-5090-4543-8264-f77c82c2785e",
+            el: document.getElementById("player"),
+            // Stage is optional
+            // Turbine Assembly https://preview.threekit.com/o/ian-drews-dev/assets/34a411a0-ee60-4cc3-9ed8-6dc96ea62274
+            assetId: "34a411a0-ee60-4cc3-9ed8-6dc96ea62274",
+            showConfigurator: false,
+            showAR: true,
+        })
+        .then(async (api) => {
+            window.player = api;
+            window.configurator = await api.getConfigurator();
+            await api.when("loaded");
+            /*
+            This is an example of how a tool can be added to the Threekit player
+            to add interactivity to the 3D Space
+            https://docs.threekit.com/docs/player-api#tools
+            */
+
+            let player = window.player;
+
+            player.tools.addTool({
+                key: "partSelect",
+                label: "Part Select Tool",
+                active: true,
+                enabled: true,
+                handlers: {
+                    click: (ev) => {
+                        const hits = ev.hitNodes;
+                        const nodeId = hits && hits.length > 0 && hits[0].nodeId;
+                        if (nodeId) {
+                            const selectable = player.scene.get({
+                                id: nodeId,
+                                plug: "Properties",
+                                property: "selectable",
+                            });
+                            if (selectable || typeof selectable === "undefined") {
+                                player.selectionSet.set(nodeId);
+                                const nodeInfo = player.scene.get({ id: nodeId });
+                                console.log(nodeInfo);
+                            } else {
+                                player.selectionSet.clear();
+                            }
+                        } else {
+                            player.selectionSet.clear();
+                        }
+                    },
+                },
+            });
+        });
+</script>
+
+</html>
