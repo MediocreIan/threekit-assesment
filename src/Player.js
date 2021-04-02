@@ -1,7 +1,7 @@
+import './App.css';
 import React, {useState, useEffect} from 'react';
 import Input from './input'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Display from './Display'
 
 
 function Player()
@@ -12,7 +12,6 @@ function Player()
     let setSavedData = null
     useEffect(() =>
     {
-        console.log('test')
         window
             .threekitPlayer({
                 authToken: "0005d11b-9ffa-4ec7-9147-abcdb2a112ec",
@@ -57,7 +56,6 @@ function Player()
                                 if (selectable || typeof selectable === "undefined") {
                                     api.selectionSet.set(nodeId);
                                     const nodeInfo = api.scene.get({id: nodeId});
-                                    console.log(nodeInfo);
                                     setSelected(nodeInfo.name)
                                     Array.from(document.querySelectorAll("input")).forEach(
                                         input => (input.value = "")
@@ -85,8 +83,17 @@ function Player()
     };
     return (
         <div className="Player">
-            <div style={{display: "flex"}}>
-                <div id="player" style={{width: '500px', height: "500px", margin: "auto", border: "3px solid grey", borderRadius: '5px'}}>player</div>
+            <div style={{display: 'flex', flexDirection: 'horizontal', margin: '5vh 5vh 5vh 5vh', flexWrap: 'wrap'}}>
+                <div id="player" style={{
+                    // flex: "1",
+                    height: "90vh",
+                    width: "500px",
+                    border: "3px solid grey",
+                    borderRadius: '5px',
+                    backgroundColor: "#e3eff4",
+                    marginRight: '5px'
+                }}>player</div>
+                <Input onMount={onDisplayMount}></Input>
             </div>
         </div>
     );
